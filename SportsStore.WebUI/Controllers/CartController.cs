@@ -13,6 +13,7 @@ namespace SportsStore.WebUI.Controllers
         {
             repository = repo;
         }
+
         public ViewResult Index(Cart cart, string returnUrl)
         {
             return View(new CartIndexViewModel
@@ -42,6 +43,10 @@ namespace SportsStore.WebUI.Controllers
                 cart.RemoveLine(product);
             }
             return RedirectToAction("Index", new { returnUrl });
+        }
+        public PartialViewResult Summary(Cart cart)
+        {
+            return PartialView(cart);
         }
     }
 }
