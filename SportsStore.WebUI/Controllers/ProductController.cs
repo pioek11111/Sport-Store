@@ -34,6 +34,12 @@ namespace SportsStore.WebUI.Controllers
                 },
                 CurrentCategory = category
             };
+
+            var r = repository.Products.OrderByDescending(e => e.Price)
+                    .Take(3)
+                    .Select(e => new { e.Name, e.Price });
+            bool a = r == null;
+
             return View(model);
         }
     }

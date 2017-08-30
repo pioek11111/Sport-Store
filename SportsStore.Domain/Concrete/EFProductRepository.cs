@@ -9,7 +9,9 @@ namespace SportsStore.Domain.Concrete
         private EFDbContext context = new EFDbContext();
         public IEnumerable<Product> Products
         {
-            get { return context.Products; }
+            get {
+                IEnumerable<Product> p = (IEnumerable<Product>)context.Products;
+                return context.Products; }
         }
     }
 }

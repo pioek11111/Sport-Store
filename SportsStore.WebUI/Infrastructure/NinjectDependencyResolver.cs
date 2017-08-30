@@ -7,6 +7,7 @@ using SportsStore.Domain.Entities;
 using SportsStore.Domain.Concrete;
 using SportsStore.Domain.Abstract;
 using System.Linq;
+using System.Configuration;
 
 namespace SportsStore.WebUI.Infrastructure
 {
@@ -29,13 +30,14 @@ namespace SportsStore.WebUI.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IProductRepository>().To<EFProductRepository>();
-            //Mock<IProductRepository> mock = new Mock<IProductRepository>();
-            //mock.Setup(m => m.Products).Returns(new List<Product> {
-            //    new Product { Name = "Piłka nożna", Price = 25 },
-            //    new Product { Name = "Deska surfingowa", Price = 179 },
-            //    new Product { Name = "Buty do biegania", Price = 95 }
-            //});
-            //kernel.Bind<IProductRepository>().ToConstant(mock.Object);
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+            .WithConstructorArgument("settings", emailSettings);
         }
     }
 }
