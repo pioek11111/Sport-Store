@@ -10,9 +10,11 @@ namespace SportsStore.Domain.Concrete
 
         public IEnumerable<Product> Products
         {
-            get {
+            get
+            {
                 IEnumerable<Product> p = (IEnumerable<Product>)context.Products;
-                return context.Products; }
+                return context.Products;
+            }
         }
 
         public void SaveProduct(Product product)
@@ -33,6 +35,18 @@ namespace SportsStore.Domain.Concrete
                 }
             }
             context.SaveChanges();
+        }
+
+        public Product DeleteProduct(int productID)
+        {
+            Product dbEntry = context.Products.Find(productID);
+            if (dbEntry != null)
+            {
+                context.Products.Remove(dbEntry);
+                context.SaveChanges();
+            }           
+
+            return dbEntry;
         }
     }
 }
